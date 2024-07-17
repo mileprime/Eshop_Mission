@@ -35,7 +35,21 @@ window.onload = () => {
       //data is an array of 20 objects(products)
       //in order to loop through the array we need for each
       //so I can
-      data.forEach((product) => {});
+      data.forEach((product) => {
+        let card = document.createElement("div");
+        card.classList = "card";
+        //create the image cart
+        let img_container = document.createElement("div");
+        let product_img = document.createElement("img");
+        product_img.id = "img";
+        product_img.src = product.image;
+        img_container.appendChild(product_img);
+        card.appendChild(img_container);
+
+        card_container.appendChild(card);
+
+        console.log(product);
+      });
     })
     .catch(() => alert("We are working on it!!"));
 };
