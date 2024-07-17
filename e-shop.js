@@ -1,3 +1,5 @@
+let cart = [];
+
 let cartIcon = document.getElementById("cart_id");
 let overlay = document.querySelector(".overlay");
 let modal_content = document.querySelector(".modal-content");
@@ -45,10 +47,20 @@ window.onload = () => {
         product_img.src = product.image;
         img_container.appendChild(product_img);
         card.appendChild(img_container);
+        //create button and add it to the card
+        let btn_container = document.createElement("div");
+        let addBtn = document.createElement("button");
+        addBtn.textContent = "Add to the cart";
+        addBtn.addEventListener("click", () => {
+          cart.push(product);
+          console.log(product);
+        });
+
+        btn_container.appendChild(addBtn);
+        card.appendChild(btn_container);
 
         card_container.appendChild(card);
-
-        console.log(product);
+        // console.log(product);
       });
     })
     .catch(() => alert("We are working on it!!"));
