@@ -55,6 +55,36 @@ window.onload = () => {
           cart.push(product);
           console.log(product);
         });
+        //create elemennts to show the product title and price
+        let card_name = document.createElement("div");
+        let title = document.createElement("p");
+        let price = document.createElement("p");
+        card_name.classList = "card-name";
+        card_name.appendChild(title);
+        card_name.appendChild(price);
+        title.textContent = product.title;
+        price.textContent = product.price;
+        card.appendChild(card_name);
+
+        //create star images
+        let star_container = document.createElement("div");
+        let star1 = document.createElement("img");
+        let star2 = document.createElement("img");
+        let star3 = document.createElement("img");
+        let star4 = document.createElement("img");
+        let star5 = document.createElement("img");
+        star_container.classList = "stars-icon";
+        star1.src = "./images/star.png";
+        star2.src = "./images/star.png";
+        star3.src = "./images/star.png";
+        star4.src = "./images/star.png";
+        star5.src = "./images/star.png";
+        star_container.appendChild(star1);
+        star_container.appendChild(star2);
+        star_container.appendChild(star3);
+        star_container.appendChild(star4);
+        star_container.appendChild(star5);
+        card.appendChild(star_container);
 
         btn_container.appendChild(addBtn);
         card.appendChild(btn_container);
