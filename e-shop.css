@@ -9,18 +9,17 @@
   left: 0;
   position: fixed;
   display: none;
+  /* background-color: red; */
   background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-content {
-  width: 900px;
-  height: 600px;
+  width: 400px;
+  height: 100%;
   background-color: white;
   position: absolute;
   top: 0;
-  left: 0;
-  border-radius: 20px;
-  transform: translate(50%, 50%);
+  right: 0;
 }
 .cart {
   width: 40px;
