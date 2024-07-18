@@ -66,25 +66,38 @@ window.onload = () => {
         price.textContent = product.price;
         card.appendChild(card_name);
 
-        //create star images
+        console.log(product.rating.rate, "single product");
+
+        //create star images dynamic
         let star_container = document.createElement("div");
-        let star1 = document.createElement("img");
-        let star2 = document.createElement("img");
-        let star3 = document.createElement("img");
-        let star4 = document.createElement("img");
-        let star5 = document.createElement("img");
         star_container.classList = "stars-icon";
-        star1.src = "./images/star.png";
-        star2.src = "./images/star.png";
-        star3.src = "./images/star.png";
-        star4.src = "./images/star.png";
-        star5.src = "./images/star.png";
-        star_container.appendChild(star1);
-        star_container.appendChild(star2);
-        star_container.appendChild(star3);
-        star_container.appendChild(star4);
-        star_container.appendChild(star5);
         card.appendChild(star_container);
+
+        for (let i = 0; i < product.rating.rate; i++) {
+          let starImg = document.createElement("img");
+          starImg.src = "./images/star.png";
+          star_container.appendChild(starImg);
+        }
+
+        //create star images fixed
+        // let star_container = document.createElement("div");
+        // let star1 = document.createElement("img");
+        // let star2 = document.createElement("img");
+        // let star3 = document.createElement("img");
+        // let star4 = document.createElement("img");
+        // let star5 = document.createElement("img");
+        // star_container.classList = "stars-icon";
+        // star1.src = "./images/star.png";
+        // star2.src = "./images/star.png";
+        // star3.src = "./images/star.png";
+        // star4.src = "./images/star.png";
+        // star5.src = "./images/star.png";
+        // star_container.appendChild(star1);
+        // star_container.appendChild(star2);
+        // star_container.appendChild(star3);
+        // star_container.appendChild(star4);
+        // star_container.appendChild(star5);
+        // card.appendChild(star_container);
 
         btn_container.appendChild(addBtn);
         card.appendChild(btn_container);
