@@ -22,6 +22,7 @@ modal_content.addEventListener("click", () => {
 //function that shows items inside the cart
 
 let showCartItems = () => {
+  modal_content.innerHTML = "";
   cart.forEach((item) => {
     let { image, title, price } = item;
 
@@ -39,6 +40,26 @@ let showCartItems = () => {
     cartItem.appendChild(deleteBtn);
     modal_content.appendChild(cartItem);
   });
+};
+
+let addItemToCart = (product) => {
+  let isItemInCart = cart.find((item) => {
+    return product.id == item.id;
+  });
+  if (!isItemInCart) {
+    cart.push({ ...product, item_quantity: 1 });
+    showCartItems();
+  } else {
+    cart.map((item) => {
+      if (item.id == product.id) {
+        return { ...product, item_quantity: item.item_quantity++ };
+      } else {
+        return item;
+      }
+    });
+  }
+
+  console.log(cart, "its already in the cart");
 };
 
 window.onload = () => {
@@ -67,9 +88,9 @@ window.onload = () => {
         let addBtn = document.createElement("button");
         addBtn.textContent = "Add to the cart";
         addBtn.addEventListener("click", () => {
-          cart.push(product);
-          showCartItems();
+          addItemToCart(product);
         });
+
         //create elemennts to show the product title and price
         let card_name = document.createElement("div");
         let title_p = document.createElement("p");
