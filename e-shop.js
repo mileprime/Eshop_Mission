@@ -1,3 +1,5 @@
+import { apiCall } from "./apiCalls.js";
+
 let cart = [];
 
 let cartIcon = document.getElementById("cart_id");
@@ -16,19 +18,27 @@ overlay.addEventListener("click", () => {
 modal_content.addEventListener("click", () => {
   e.stopPropagation();
 });
-let apiCall = () => {
-  let promise = new Promise((resolve, reject) => {
-    let data = fetch("https://fakestoreapi.com/products").then((res) =>
-      res.json()
-    );
 
-    if (data) {
-      resolve(data);
-    } else {
-      reject();
-    }
+//function that shows items inside the cart
+
+let showCartItems = () => {
+  cart.forEach((item) => {
+    let { image, title, price } = item;
+
+    let cartItem = document.createElement("div");
+    let cart_img_container = document.createElement("div");
+    let cart_img = document.createElement("img");
+    let deleteBtn = document.createElement("button");
+    cartItem.classList = "cart-item";
+    cart_img.id = "cart-item-img";
+    cart_img_container.classList = "cart-item-img-container ";
+    cart_img.src = image;
+    deleteBtn.textContent = "X";
+    cart_img_container.appendChild(cart_img);
+    cartItem.appendChild(cart_img_container);
+    cartItem.appendChild(deleteBtn);
+    modal_content.appendChild(cartItem);
   });
-  return promise;
 };
 
 window.onload = () => {
@@ -36,7 +46,8 @@ window.onload = () => {
     .then((data) => {
       //data is an array of 20 objects(products)
       //in order to loop through the array we need for each
-      //so I can
+      //so I can have access to each and every element
+      //data is the array and product is an object
       data.forEach((product) => {
         let card = document.createElement("div");
         card.classList = "card";
@@ -44,7 +55,11 @@ window.onload = () => {
         let img_container = document.createElement("div");
         let product_img = document.createElement("img");
         product_img.id = "img";
-        product_img.src = product.image;
+
+        // let image from product
+        let { image, title, price } = product;
+
+        product_img.src = image;
         img_container.appendChild(product_img);
         card.appendChild(img_container);
         //create button and add it to the card
@@ -53,20 +68,21 @@ window.onload = () => {
         addBtn.textContent = "Add to the cart";
         addBtn.addEventListener("click", () => {
           cart.push(product);
-          console.log(product);
+          showCartItems();
         });
         //create elemennts to show the product title and price
         let card_name = document.createElement("div");
-        let title = document.createElement("p");
-        let price = document.createElement("p");
+        let title_p = document.createElement("p");
+        let price_p = document.createElement("p");
         card_name.classList = "card-name";
-        card_name.appendChild(title);
-        card_name.appendChild(price);
-        title.textContent = product.title;
-        price.textContent = product.price;
+        card_name.appendChild(title_p);
+        card_name.appendChild(price_p);
+        title_p.textContent = title;
+        price_p.textContent = "$" + price;
         card.appendChild(card_name);
 
-        console.log(product.rating.rate, "single product");
+        console.log(product.rating.rate, product.title, product.price);
+        // console.log(product);
 
         //create star images dynamic
         let star_container = document.createElement("div");
@@ -74,6 +90,7 @@ window.onload = () => {
         card.appendChild(star_container);
 
         for (let i = 0; i < product.rating.rate; i++) {
+          // console.log(i);
           let starImg = document.createElement("img");
           starImg.src = "./images/star.png";
           star_container.appendChild(starImg);
