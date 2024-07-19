@@ -1,7 +1,12 @@
 import { apiCall } from "./apiCalls.js";
 import { createCartItem } from "./displayFunctions.js";
+import { SaveCartInLocalStorage } from "./utilizeFunction.js";
 
-let cart = [];
+let cart = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : [];
+
+// console.log(3 > 2 ? "3 is larger" : "3 is not");
 
 let cartIcon = document.getElementById("cart_id");
 let overlay = document.querySelector(".overlay");
@@ -16,7 +21,7 @@ cartIcon.addEventListener("click", () => {
 overlay.addEventListener("click", () => {
   overlay.style.display = "none";
 });
-modal_content.addEventListener("click", () => {
+modal_content.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
@@ -39,6 +44,15 @@ let showCartItems = () => {
     cart_img_container.appendChild(cart_img);
     cartItem.appendChild(cart_img_container);
     cartItem.appendChild(deleteBtn);
+    deleteBtn.addEventListener("click", () => {
+      //filter the item you want to delete
+      cart = cart.filter((cartItem) => cartItem.id != item.id);
+
+      //save in local storage
+      SaveCartInLocalStorage(cart);
+      //update the html of showing the cart item
+      showCartItems();
+    });
     modal_content.appendChild(cartItem);
   });
 };
@@ -49,15 +63,19 @@ export let addItemToCart = (product) => {
   });
   if (!isItemInCart) {
     cart.push({ ...product, item_quantity: 1 });
+    SaveCartInLocalStorage(cart);
+
     showCartItems();
   } else {
     cart.map((item) => {
       if (item.id == product.id) {
-        return { ...product, item_quantity: item.item_quantity++ };
+        return { ...item, item_quantity: item.item_quantity++ };
       } else {
         return item;
       }
     });
+    showCartItems();
+    SaveCartInLocalStorage(cart);
   }
 
   console.log(cart, "its already in the cart");
