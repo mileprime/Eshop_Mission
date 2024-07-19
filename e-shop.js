@@ -36,6 +36,18 @@ let showCartItems = () => {
     let cart_img_container = document.createElement("div");
     let cart_img = document.createElement("img");
     let deleteBtn = document.createElement("button");
+    let cartItemAmount = document.createElement("div");
+    let count = document.createElement("p");
+    let increaseBtn = document.createElement("button");
+    let decreaseBtn = document.createElement("button");
+    cartItemAmount.classList = "cart-item-amount";
+    increaseBtn.textContent = "+";
+    decreaseBtn.textContent = "-";
+    count.textContent = item.item_quantity;
+    cartItemAmount.appendChild(count);
+    cartItemAmount.appendChild(increaseBtn);
+    cartItemAmount.appendChild(decreaseBtn);
+    cartItem.appendChild(cartItemAmount);
     cartItem.classList = "cart-item";
     cart_img.id = "cart-item-img";
     cart_img_container.classList = "cart-item-img-container ";
@@ -44,6 +56,23 @@ let showCartItems = () => {
     cart_img_container.appendChild(cart_img);
     cartItem.appendChild(cart_img_container);
     cartItem.appendChild(deleteBtn);
+
+    //Event Listener for increase button
+    increaseBtn.addEventListener("click", () => {
+      //Increment Item quantity
+      item.item_quantity++;
+      updateCartItemQuantity(item.id, item.item_quantity);
+      console.log(item.id);
+    });
+    //Event Listener for decrease button
+    decreaseBtn.addEventListener("click", () => {
+      if (item.item_quantity > 1) {
+        //Decrement item quantity(minimum 1)
+        item.item_quantity--;
+        updateCartItemQuantity(item.id, item.item_quantity);
+        console.log(item.id);
+      }
+    });
     deleteBtn.addEventListener("click", () => {
       //filter the item you want to delete
       cart = cart.filter((cartItem) => cartItem.id != item.id);
@@ -56,6 +85,16 @@ let showCartItems = () => {
     modal_content.appendChild(cartItem);
   });
 };
+
+//Function to update cart item quantity in cart array and local storage
+function updateCartItemQuantity(itemId, quantity) {
+  let index = cart.findIndex((item) => item.id == itemId);
+  if (index !== -1) {
+    cart[index].item_quantity = quantity; //update cart item quantity
+    SaveCartInLocalStorage(cart); //Save updated cart in local storage
+    showCartItems(); //Refresh cart display
+  }
+}
 
 export let addItemToCart = (product) => {
   let isItemInCart = cart.find((item) => {
