@@ -1,3 +1,29 @@
+let table = document.getElementById("product-table");
+let btn_new_product = document.getElementById("new-product");
+let url = "https://fakestoreapi.com/products";
+
+let addNewProduct = async () => {
+  //prepare the data of the new product
+  let newProduct = {
+    title: "new product",
+    price: 50835,
+    description: "test",
+    category: "Women",
+    image: "https://i.pravatar.cc",
+  };
+  // do fetch request
+  //in the fetch specify the method of the request
+  //and the data you want to send
+  let response = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(newProduct),
+  });
+  console.log(response, "res");
+};
+
+btn_new_product.addEventListener("click", () => {
+  addNewProduct();
+});
 const showProducts = (products) => {
   console.log(products, "my products");
   //loop through products using forEach
@@ -5,14 +31,38 @@ const showProducts = (products) => {
   products.forEach((item) => {
     //item is an object
     //let {title} = item: is destructuring
-    let { title, price, category, image, description } = item;
-    console.log(title, price, category, image, description, "single item");
+    let { title, price, category, image, description, id } = item;
+    // console.log(title, price, category, image, description, "single item");
+    console.log(price);
+    //inside the forEach we will create a tr
+    let tr = document.createElement("tr");
+    //create td
+    let tdId = document.createElement("td");
+    let tdTitle = document.createElement("td");
+    let tdPrice = document.createElement("td");
+    let tdDescription = document.createElement("td");
+    let tdCategory = document.createElement("td");
+    let tdImage = document.createElement("td");
+    let img = document.createElement("img");
+    //give this td the right content
+    tdId.textContent = id;
+    tdTitle.textContent = title;
+    tdPrice.textContent = price;
+    tdDescription.textContent = description;
+    tdCategory.textContent = category;
+    img.src = image;
+    img.style.width = "40px";
+    tdImage.appendChild(img);
+    //then we will add this td to the tr
+    tr.appendChild(tdId);
+    tr.appendChild(tdTitle);
+    tr.appendChild(tdPrice);
+    tr.appendChild(tdDescription);
+    tr.appendChild(tdCategory);
+    tr.appendChild(tdImage);
+    //then we will add the tr to the table
+    table.appendChild(tr);
   });
-  //inside the forEach we will create
-  //create td
-  //give this td the right content
-  //then we will add this td to the tr
-  //then we will add the tr to the table
 };
 
 const fetchProductData = async () => {
