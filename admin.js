@@ -18,6 +18,11 @@ let addNewProduct = async () => {
     method: "POST",
     body: JSON.stringify(newProduct),
   });
+  //call the fetch again to bring
+  if (response.status == 200) {
+    fetchProductData();
+  }
+
   console.log(response, "res");
 };
 
