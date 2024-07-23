@@ -19,6 +19,7 @@ let addNewProduct = async () => {
     body: JSON.stringify(newProduct),
   });
   //call the fetch again to bring
+  //to get the most updated data
   if (response.status == 200) {
     fetchProductData();
   }
