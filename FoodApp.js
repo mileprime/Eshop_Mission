@@ -4,8 +4,30 @@ let password = document.getElementById("password");
 let signUpBtn = document.getElementById("signup");
 let url = "https://food-delivery-backend-fcxs.onrender.com/api";
 
-let userSignUp = (user) => {
-  console.log(user, "new user");
+let userSignUp = async (user) => {
+  //Do fetch for user register url
+  let response = await fetch(`${url}/user/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(user),
+  });
+  //Convert the response to json
+
+  let Data = response.json();
+  console.log(Data, "Done!");
+
+  //with the url specify the method name
+  //with the url specify the headers needed
+  //Finally send the body: which is the new user object
+
+  // let response = fetch(`${url}/user/register`,{
+  //     method: "POST",
+  //     headers: {
+  //         Accept: "application/json",
+  //         "User-Agent": "learning app"
+  //     },
+
+  // });
 };
 
 signUpBtn.addEventListener("click", () => {
