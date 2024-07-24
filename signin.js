@@ -1,7 +1,8 @@
 let email = document.getElementById("email");
 let password = document.getElementById("password");
 let login = document.getElementById("login");
-let url = "https://food-delivery-backend-fcxs.onrender.com/api";
+
+import { url } from "./constant.js";
 
 let userSignIn = async (user) => {
   //   console.log(user, "user login");
@@ -12,6 +13,8 @@ let userSignIn = async (user) => {
   });
   let Data = await response.json();
   if (Data.success) {
+    localStorage.setItem("token", Data.token);
+    console.log(Data.token);
     window.open("./home.html");
   } else {
     alert(Data.message);
