@@ -1,4 +1,7 @@
 import { url } from "./constant.js";
+export let main_url = "https://food-delivery-backend-fcxs.onrender.com";
+let FormFood = document.getElementById("foodForm");
+
 let table = document.getElementById("food-table");
 let btn_new_food = document.getElementById("new-food");
 
@@ -12,13 +15,15 @@ let getFoodList = async () => {
   ShowFoods(Data.data);
   console.log(Data.data, "response");
 };
-getFoodList();
+if (table) {
+  getFoodList();
+}
 
 const ShowFoods = (foods) => {
   console.log(foods, "my foods");
 
   foods.forEach((item, index) => {
-    let { name, description, price, category, __v } = item;
+    let { name, description, price, category, image } = item;
 
     let tr = document.createElement("tr");
     let tdId = document.createElement("td");
@@ -26,21 +31,52 @@ const ShowFoods = (foods) => {
     let tdDescription = document.createElement("td");
     let tdPrice = document.createElement("td");
     let tdCategory = document.createElement("td");
-    let td__v = document.createElement("td");
+    let tdImage = document.createElement("td");
+    let img = document.createElement("img");
 
     tdId.textContent = index;
     tdName.textContent = name;
     tdDescription.textContent = description;
     tdPrice.textContent = price;
     tdCategory.textContent = category;
-    td__v.textContent = __v;
+    img.src = `${main_url}/images/${image}`;
+    img.style.width = "40px";
 
     tr.appendChild(tdId);
     tr.appendChild(tdName);
     tr.appendChild(tdDescription);
     tr.appendChild(tdPrice);
     tr.appendChild(tdCategory);
-    tr.appendChild(td__v);
+    tdImage.appendChild(img);
+    tr.appendChild(tdImage);
     table.appendChild(tr);
   });
 };
+
+let name = document.getElementById("name");
+let description = document.getElementById("description");
+let price = document.getElementById("price");
+let category = document.getElementById("category");
+let image = document.getElementById("image");
+if (FormFood) {
+  FormFood.addEventListener("click", async () => {
+    //we will convert the data to formData
+    let foodFormData = new FormData();
+    foodFormData.append("name", name.value);
+    foodFormData.append("price", price.value);
+    foodFormData.append("description", description.value);
+    foodFormData.append("category", category.value);
+    foodFormData.append("image", image.files[0]);
+    //Then we will do the fetch request
+
+    let response = await fetch(`${url}/food/add`, {
+      method: "POST",
+      body: foodFormData,
+    });
+
+    let data = await response.json();
+    console.log(data, "done adding food");
+    //Specify the method as POST
+    //Send the data that we have converted to formData
+  });
+}
