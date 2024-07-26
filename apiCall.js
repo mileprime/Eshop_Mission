@@ -19,12 +19,46 @@ if (table) {
   getFoodList();
 }
 
-let deleteFood = (id) => {
-  console.log(id, "need to be delete");
+let deleteFood = async (itemid) => {
+  try {
+    let itemId = { id: itemid };
+    // do the fetch for request
+    let response = await fetch(`${url}/food/remove`, {
+      method: "DELETE",
+      body: JSON.stringify(itemId),
+    });
+    let data = await response.json();
+    if (data.success) {
+      getFoodList();
+      alert(data.message);
+    } else {
+      alert(data.message);
+    }
+    console.log(data);
+    //specify the method which is delete
+    //send the id of the item which we need to delete
+  } catch (error) {
+    alert("Delete is definitely not working");
+  }
 };
+// let tBody = table.querySelector("tbody");
 
 const ShowFoods = (foods) => {
   console.log(foods, "my foods");
+
+  let thead = ` <tr>
+  <th>ID</th>
+  <th>Title</th>
+  <th>Name</th>
+  <th>Description</th>
+  <th>Price</th>
+  <th>Category</th>
+  <th>Image</th>
+  <th>Actions</th>
+</tr>`;
+
+  table.innerHTML = "";
+  table.innerHTML = thead;
 
   foods.forEach((item, index) => {
     let { title, name, description, price, category, image, _id } = item;
