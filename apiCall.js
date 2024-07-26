@@ -19,36 +19,52 @@ if (table) {
   getFoodList();
 }
 
+let deleteFood = (id) => {
+  console.log(id, "need to be delete");
+};
+
 const ShowFoods = (foods) => {
   console.log(foods, "my foods");
 
   foods.forEach((item, index) => {
-    let { name, description, price, category, image } = item;
+    let { title, name, description, price, category, image, _id } = item;
 
     let tr = document.createElement("tr");
     let tdId = document.createElement("td");
+    let tdTitle = document.createElement("td");
     let tdName = document.createElement("td");
     let tdDescription = document.createElement("td");
     let tdPrice = document.createElement("td");
     let tdCategory = document.createElement("td");
     let tdImage = document.createElement("td");
     let img = document.createElement("img");
+    let tdAction = document.createElement("td");
+    let removeBtn = document.createElement("button");
 
-    tdId.textContent = index;
+    tdId.textContent = index + 1;
+    tdTitle.textContent = title;
     tdName.textContent = name;
     tdDescription.textContent = description;
     tdPrice.textContent = price;
     tdCategory.textContent = category;
     img.src = `${main_url}/images/${image}`;
     img.style.width = "40px";
+    tdAction.appendChild(removeBtn);
+    removeBtn.textContent = "Remove";
+
+    removeBtn.addEventListener("click", () => {
+      deleteFood(_id);
+    });
 
     tr.appendChild(tdId);
+    tr.appendChild(tdTitle);
     tr.appendChild(tdName);
     tr.appendChild(tdDescription);
     tr.appendChild(tdPrice);
     tr.appendChild(tdCategory);
     tdImage.appendChild(img);
     tr.appendChild(tdImage);
+    tr.appendChild(tdAction);
     table.appendChild(tr);
   });
 };
